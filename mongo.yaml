@@ -1,5 +1,5 @@
 --- #MongoDB deployment
-# The blueprint of our MongoDB deplyment in k8s using the secrets
+# The blueprint of our MongoDB deployment in k8s using the secrets
 
 apiVersion: apps/v1
 kind: Deployment
@@ -33,6 +33,8 @@ spec:
             secretKeyRef:
               name: mongo-secret
               key: mongo-root-password
+        - name: ME_CONFIG_MONGODB_ENABLE_ADMIN
+          value: "false"
 
 
 --- #MongoDB service
