@@ -1,0 +1,18 @@
+# Code
+__pycache__/
+*.pyc
+*.pyo
+*venv/
+.env
+*.ipynb
+*secrets.yaml
+
+# Windows system files
+Thumbs.db
+desktop.ini
+
+# MacOS system files
+.DS_Store
+.Spotlight-V100
+.Trashes
+._*
