@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo
+        image: mongo:8.0
         ports:
         - containerPort: 27017
         env:
@@ -33,8 +33,6 @@ spec:
             secretKeyRef:
               name: mongo-secret
               key: mongo-root-password
-        - name: ME_CONFIG_MONGODB_ENABLE_ADMIN
-          value: "false"
 
 
 --- #MongoDB service
