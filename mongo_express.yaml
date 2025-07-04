@@ -50,7 +50,7 @@ metadata:
 spec:
   selector:
     app: mongoexpress
-  type: LoadBalancer
+  type: NodePort  #NodePort allows the nginx-ingress-controller to work efficiently on MacOS M1
   ports:
   - protocol: TCP
     port: 8081
