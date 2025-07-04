@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mongo-ingress
+spec:
+  ingressClassName: "nginx"
+  rules:
+  - host: mongoui.tg  #the hostname where the ingress will be available
+    http:
+      paths:
+      - path: /
+        pathType: Prefix  
+        backend:
+          service:
+            name: mongoexpress-service
+            port: 
+              number: 8081
