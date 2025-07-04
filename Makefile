@@ -11,6 +11,7 @@ setup: ## Setup all k8s components
 	@echo "\nSetting up MongoExpress Components...\n"
 	@kubectl apply -f mongo_express-configMap.yaml
 	@kubectl apply -f mongo_express.yaml
+	@kubectl apply -f mongo-ingress.yaml
 
 
 
@@ -19,5 +20,6 @@ destroy: ## Setup all k8s components
 	@kubectl delete -f mongo.yaml
 	@kubectl delete -f mongo-secrets.yaml
 	@echo "\nDeleting MongoExpress Components...\n"
+	@kubectl delete -f mongo-ingress.yaml
 	@kubectl delete -f mongo_express.yaml
 	@kubectl delete -f mongo_express-configMap.yaml
