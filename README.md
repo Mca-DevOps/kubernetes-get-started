@@ -10,7 +10,7 @@ Introduction to k8s
 
 
 ## 1. Overwiew
-This project is a hand-on project to introduce someone to kubernetes (k8s) main concepts. The project draws a simple architecture where 2 pods (MongoDB and MongoExpress) are running inside a k8s cluster (Local Minikube cluster in this case). The pods are suported by 2 services one for external requests (MongoExpress service) and one for internal requests (MongoDB service). In addition, we'll configure secrets and ConfigMap files in order to define the credentials for the pods and make the blueprints more flexible. 
+This project is a hand-on project to introduce someone to kubernetes (k8s) main concepts. The project draws a simple architecture where 2 pods (MongoDB and MongoExpress) are running inside a k8s cluster (Local Minikube cluster in this case). The pods are suported by 2 services one for external requests (MongoExpress service) and one for internal requests (MongoDB service). In addition, we'll configure secrets and ConfigMap files in order to define the credentials for the pods and make the blueprints more flexible to edit. 
 
 <br/>
 
@@ -63,19 +63,66 @@ yyyyyy
 ```bash
 $ minikube start
 ```
-Then setup all k8s components by running the following command:
+From the `mongo-ingress.yaml` file, copy the hostname (`mongoui.tg`):
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+...
+spec:
+  ingressClassName: "nginx"
+  rules:
+  - host: mongoui.tg  #the hostname where the ingress will be available
+    ...
+
+```
+Get the Minikube ip address by running the following command
+
+```bash
+$ minikube ip
+```
+Then, add the Minikube ip address and the copied hostname to `/etc/hosts` by running the following command:
+
+```bash
+$ sudo sh -c "echo '$(minikube ip) mongoui.tg' >> /etc/hosts"
+```
+`[For MacOS users with Apple Silicon chip]` run the following command:
+```bash
+$ sudo sh -c "echo '127.0.0.1 mongoui.tg' >> /etc/hosts"
+``` 
+
+
+Then, setup all k8s components by running the following command:
 ```bash
 $ make setup
 ```
-Finally, open a tunnel in order to access to MongoExpress WEB UI by running the following command:
+`[For MacOS users with Apple Silicon chip]` Open a tunnel in order to allow the Ingress component to be accessible by running the following command:
 ```bash
-$ minikube service mongoexpress-service
+$ minikube tunnel
 ```
+
+<img src="doc/demo.gif" alt="locust-modern-ui" width=1000 href="none"></img>
+
 `After doing whatever you want to do, you can delete all created components by running the following command:`
 
 ```bash
 $ make destroy
 ```
+<br/>
+
+---
+---
+## 4. Troubleshooting
+> To log in to MongoExpress UI, use the following credentials:
+>
+> - **Username**: `admin`
+> - **Password**: `pass`
+>
+> Then, once you are logged in, you can create a new database and a > new collection or add a new admin.
+
+> To understand and apply k8s Minikube ingress on MacOS and Linux, check the official k8s ingress documentation: [https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) 
+
+> To understand the overview of k8s ingress, check the official k8s ingress documentation: [https://kubernetes.io/docs/concepts/services-networking/ingress/](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 
 
 <br/>
