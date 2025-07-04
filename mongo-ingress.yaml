@@ -4,6 +4,10 @@ metadata:
   name: mongo-ingress
 spec:
   ingressClassName: "nginx"
+  tls:
+  - hosts: 
+    - mongoui.tg
+    secretName: mongo-tls-secret
   rules:
   - host: mongoui.tg  #the hostname where the ingress will be available
     http:
