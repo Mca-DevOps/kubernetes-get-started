@@ -59,6 +59,38 @@ $ echo -n "password" | base64
 yyyyyy
 ```
 
+Then, generate the TLS certificate by running the following command:
+
+```bash
+$ openssl req -x509 -nodes -days 365 \          
+  -newkey rsa:2048 \
+  -keyout tls.key \
+  -out tls.crt \
+  -subj "/CN=mongoui.tg/O=mongoorg"
+```
+`CN=your-domain-name`  `O=your-organization`
+
+Create file named mongo-tls-secret.yaml in the root directory of the project. This file will be used to store TLS certificate informations for HTTPS connection for ingress component.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-tls-secret
+type: kubernetes.io/tls #Type for TLS certificates
+data:
+  tls.crt: xxxxxx
+  tls.key: yyyyyy
+```
+Replace `xxxxxx` with the content of `tls.crt` file and `yyyyyy` with the content of `tls.key` file, both converted in base64. Example bellow:
+
+```
+$ echo -n "username" | base64
+xxxxxx
+$ echo -n "password" | base64
+yyyyyy
+```
+
 **Step 3**: Start the minikube cluster by running the following command:
 ```bash
 $ minikube start
