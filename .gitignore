@@ -5,7 +5,9 @@ __pycache__/
 *venv/
 .env
 *.ipynb
-*secrets.yaml
+*secret.yaml
+*.crt
+*.key
 
 # Windows system files
 Thumbs.db
