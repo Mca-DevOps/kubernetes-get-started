@@ -4,6 +4,11 @@
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
+
+init: ## Install k8s prerequisites to run this project
+	@echo "\nSetting up NGINX Ingress Components...\n"
+	@minikube addons enable ingress
+
 setup: ## Setup all k8s components
 	@echo "\nSetting up MongoDB Components...\n"
 	@kubectl apply -f mongo-secret.yaml
