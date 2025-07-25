@@ -34,14 +34,14 @@ After satisfying the above requirements, you can proceed with the following step
 
 **Step 1**: Clone the project's repository
 
-**Step 2**: Create a file named `mongo-secrets.yaml` in the root directory of the project. This file will be used to store the mongodb deployment credentials for connexion. 
+**Step 2**: Create a file named `mongo-secret.yaml` in the root directory of the project. This file will be used to store the mongodb deployment credentials for connexion. 
 ```bash
-$ touch mongo-secrets.yaml
+$ touch mongo-secret.yaml
 ```
-Then, add the following content:
+Then, add the following snippet:
 
 ```yaml
-apiVersion: apps/v1
+apiVersion: v1
 kind: Secret
 metadata:
   name: mongo-secret
@@ -52,7 +52,7 @@ data:
 ```
 Replace `xxxxxx` with your own credentials converted in base64. For example, if your `mongo-root-username` is `username`(in plain text) and your `mongo-root-password` is `password`(in plain text), `xxxxxx` and `yyyyy` will be the base64 encodings of `username` and `password` respectively:
 
-```
+```bash
 $ echo -n "username" | base64
 xxxxxx
 $ echo -n "password" | base64
@@ -70,7 +70,7 @@ $ openssl req -x509 -nodes -days 365 \
 ```
 `CN=your-domain-name`  `O=your-organization`
 
-Create file named mongo-tls-secret.yaml in the root directory of the project. This file will be used to store TLS certificate informations for HTTPS connection for ingress component.
+Create file named `mongo-tls-secret.yaml` in the root directory of the project. This file will be used to store TLS certificate informations for HTTPS connection for ingress component.
 
 ```yaml
 apiVersion: v1
@@ -84,10 +84,23 @@ data:
 ```
 Replace `xxxxxx` with the content of `tls.crt` file and `yyyyyy` with the content of `tls.key` file, both converted in base64. Example bellow:
 
+```bash
+$ cat tls.crt
+-----BEGIN CERTIFICATE-----
+abcd
+-----END CERTIFICATE-----
+
+$ cat tls.key
+-----BEGIN PRIVATE KEY-----
+12345
+-----END PRIVATE KEY-----
+
 ```
-$ echo -n "username" | base64
+
+```bash
+$ echo -n "abcd" | base64
 xxxxxx
-$ echo -n "password" | base64
+$ echo -n "12345" | base64
 yyyyyy
 ```
 
@@ -123,12 +136,16 @@ $ sudo sh -c "echo '$(minikube ip) mongoui.tg' >> /etc/hosts"
 $ sudo sh -c "echo '127.0.0.1 mongoui.tg' >> /etc/hosts"
 ``` 
 
+Initialize all k8s mandatory components to run the project:
+```bash
+$ make init
+```
 
 Then, setup all k8s components by running the following command:
 ```bash
 $ make setup
 ```
-`[For MacOS users with Apple Silicon chip]` Open a tunnel in order to allow the Ingress component to be accessible by running the following command:
+`[For MacOS users with Apple Silicon chip]` Open a tunnel in order to allow the Ingress component to be accessible by running the following command (no need for Linux users):
 ```bash
 $ minikube tunnel
 ```
@@ -145,12 +162,23 @@ $ make destroy
 ---
 ---
 ## 4. Troubleshooting
-> To log in to MongoExpress UI, use the following credentials:
+> If your Web UI page doesn't load correctly, make sure to have an assigned address to your ingress component by typing this command:
+> ```bash
+> $ kubectl get ingress -wo wide
+> ```
+> The output will be something like this:
+>```
+> NAME            CLASS   HOSTS        ADDRESS        PORTS     AGE
+> mongo-ingress   nginx   mongoui.tg   192.168.12.3   80, 443   43s
+> ```
+> Hit `Ctrl+C` to quit
+
+> To log in to MongoExpress UI, use the following credentials (MongoExpress default credentials):
 >
 > - **Username**: `admin`
 > - **Password**: `pass`
 >
-> Then, once you are logged in, you can create a new database and a > new collection or add a new admin.
+> Then, once you are logged in, you can create a new database and a new collection or add a new admin.
 
 > To understand and apply k8s Minikube ingress on MacOS and Linux, check the official k8s ingress documentation: [https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) 
 
