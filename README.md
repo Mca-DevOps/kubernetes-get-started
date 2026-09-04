@@ -8,6 +8,7 @@ Introduction to k8s
 [<img src="https://img.shields.io/badge/Mongo-8.0-successgreen.svg?logo=mongodb   ">](https://hub.docker.com/r/grafana/grafana/tags)
 [<img src="https://img.shields.io/badge/MongoExpress-1.0-successgreen.svg?logo=mongodb   ">](https://hub.docker.com/_/mongo-express)
 
+All my notes here: [click here](https://shade-koala-996.notion.site/K8s-3d176a831a6e8048b8b1fcdbccd04592?source=copy_link)
 
 ## 1. Overwiew
 This project is a hand-on project to introduce someone to kubernetes (k8s) main concepts. The project draws a simple architecture where 2 pods (MongoDB and MongoExpress) are running inside a k8s cluster (Local Minikube cluster in this case). The pods are suported by 2 services one for external requests (MongoExpress service) and one for internal requests (MongoDB service). In addition, we'll configure secrets and ConfigMap files in order to define the credentials for the pods and make the blueprints more flexible to edit. 
