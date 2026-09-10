@@ -1,0 +1,11 @@
+Switch between Kubernetes namespaces.
+
+USAGE:
+  kubens                    : list the namespaces in the current context
+  kubens <NAME>             : change the active namespace of current context
+  kubens <NAME> --force/-f  : force change the active namespace of current context (even if it doesn't exist)
+  kubens -                  : switch to the previous namespace in this context
+  kubens -c, --current      : show the current namespace
+  kubens -h,--help          : show this message
+  kubens -u,--unset         : unset the namespace choice (set to 'default')
+  kubens -V,--version       : show version
