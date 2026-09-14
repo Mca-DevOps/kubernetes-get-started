@@ -4,6 +4,7 @@ metadata:
   name: postgres-deployment
   labels:
     db: postgres
+  namespace: pg-namespace
 spec:
   replicas: 1
   selector:
