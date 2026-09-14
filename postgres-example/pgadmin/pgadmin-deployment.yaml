@@ -4,6 +4,7 @@ metadata:
   name: pgadmin-deployment
   labels:
     app: pgadmin
+  namespace: pg-namespace
 spec:
   replicas: 1
   selector:
