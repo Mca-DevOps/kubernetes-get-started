@@ -46,6 +46,10 @@ postgres-example/
 Apply the manifests namespace-wise:
 
 ```bash
+$ kubectl create namespace pg-namespace
+```
+
+```bash
 # PostgreSQL
 $ kubectl apply -f postgres/
 
