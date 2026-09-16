@@ -4,6 +4,10 @@ metadata:
   name: pgadmin-ingress
   namespace: pg-namespace
 spec:
+  tls:
+    - hosts:
+        - k8s-cluster
+      secretName: tls-secret
   rules:
     - host: k8s-cluster
       http:
